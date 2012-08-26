@@ -3,18 +3,18 @@ class Player
   
   def initialize
     @max_health = 20
-    @min_health = 10
+    @min_health = 6
     @health = @max_health
-    @direction = :@backward
+    @direction = :forward
   end
   
   def play_turn(warrior)
     @warrior = warrior
     
     if @warrior.feel.empty? then
-      if under_attack? then decide_next_move!
+      if under_attack? then decide_next_move
       elsif (!under_attack? && injured?) then @warrior.rest!
-      elsif (!under_attack? && !low_health?) then decide_next_move!
+      elsif (!under_attack? && !low_health?) then set_direction!
       end
     else
       if (@warrior.feel.enemy? && low_health?) then run_away!
@@ -39,20 +39,35 @@ class Player
   end
   
   def run_away!
-    if @direction == :backward then
-      @warrior.walk! :forward
-    else
-      @warrior.walk! :backward
-    end
+    @warrior.walk! :backward
   end
   
-  def wizard_ahead?
-     @warrior.look[1].character == 'w'
+  def enemy_ahead?(direction)
+     space = @warrior.look(direction)
+     units = Array.new
+     
+     space.each do |s|
+       units.push(s.character)
+     end
+     
+     if units.include?('a') then return true
+     elsif units.include?('w') then return true
+     else return false
+     end
   end
   
-  def decide_next_move!
-    if wizard_ahead? then @warrior.shoot!
+  def decide_next_move
+    if enemy_ahead?(@direction) then @warrior.shoot!
     elsif low_health? then run_away!
     else @warrior.walk! end
+  end
+  
+  def set_direction!
+    if (enemy_ahead? :backward) then
+      @warrior.pivot!
+    elsif (enemy_ahead? :forward) then
+      @warrior.pivot!
+    else @warrior.walk!
+    end
   end
 end
