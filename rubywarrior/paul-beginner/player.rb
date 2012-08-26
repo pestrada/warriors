@@ -1,9 +1,10 @@
 #RubyWarrior Level 09
+#first score: 538 - epic score: 526
 class Player
   
   def initialize
     @max_health = 20
-    @min_health = 6
+    @min_health = 5
     @health = @max_health
     @direction = :forward
   end
@@ -12,13 +13,11 @@ class Player
     @warrior = warrior
     
     if @warrior.feel.empty? then
-      if under_attack? then decide_next_move
-      elsif (!under_attack? && injured?) then @warrior.rest!
-      elsif (!under_attack? && !low_health?) then set_direction!
+      if injured? then decide_next_move!
+      else @warrior.walk!
       end
     else
-      if (@warrior.feel.enemy? && low_health?) then run_away!
-      elsif (@warrior.feel.enemy? && !low_health?) then @warrior.attack!
+      if @warrior.feel.enemy? then @warrior.attack!
       elsif @warrior.feel.captive? then @warrior.rescue!
       elsif @warrior.feel.wall? then @warrior.pivot!
       end
@@ -52,22 +51,30 @@ class Player
      
      if units.include?('a') then return true
      elsif units.include?('w') then return true
+     elsif units.include?('S') then return true
      else return false
      end
   end
   
-  def decide_next_move
-    if enemy_ahead?(@direction) then @warrior.shoot!
+  def decide_next_move!
+    if between_enemies? then @warrior.walk!
+    elsif incoming_enemy? then @warrior.shoot!
+    elsif path_is_clear? then @warrior.rest!
+    elsif @warrior.feel.wall? then @warrior.pivot!
     elsif low_health? then run_away!
     else @warrior.walk! end
   end
   
-  def set_direction!
-    if (enemy_ahead? :backward) then
-      @warrior.pivot!
-    elsif (enemy_ahead? :forward) then
-      @warrior.pivot!
-    else @warrior.walk!
-    end
+  def between_enemies?
+    enemy_ahead?(@direction) && enemy_ahead?(:backward)
   end
+  
+  def incoming_enemy?
+    enemy_ahead?(@direction) && !enemy_ahead?(:backward)
+  end
+  
+  def path_is_clear?
+    !enemy_ahead?(@direction) && !enemy_ahead?(:backward)
+  end
+  
 end

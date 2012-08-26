@@ -1,4 +1,4 @@
 warriors
 ========
 
-My players for the Ruby Warrior game !!
+My players for the Ruby Warrior game
