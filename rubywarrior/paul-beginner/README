@@ -1,21 +1,31 @@
-Level 6
+Level 9
 
-The wall behind you feels a bit further away in this room. And you hear more cries for help.
+Time to hone your skills and apply all of the abilities that you have learned.
 
-Tip: You can walk backward by passing ':backward' as an argument to walk!. Same goes for feel, rescue! and attack!. Archers have a limited attack distance.
+Tip: Watch your back.
 
- --------
-|C @ S aa|
- --------
+ -----------
+|>Ca  @ S wC|
+ -----------
 
   > = Stairs
   @ = paul (20 HP)
   C = Captive (1 HP)
-  S = Thick Sludge (24 HP)
   a = Archer (7 HP)
+  S = Thick Sludge (24 HP)
+  w = Wizard (3 HP)
 
 
 Warrior Abilities:
+
+  warrior.look
+    Returns an array of up to three Spaces in the given direction (forward by default).
+
+  warrior.shoot!
+    Shoot your bow & arrow in given direction (forward by default).
+
+  warrior.pivot!
+    Rotate :left, :right or :backward (default)
 
   warrior.rescue!
     Rescue a captive from his chains (earning 20 points) in given direction (forward by default).
