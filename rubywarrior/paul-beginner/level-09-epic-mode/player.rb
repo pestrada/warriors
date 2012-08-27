@@ -1,12 +1,11 @@
-#RubyWarrior Level 09
-#first score: 538 - epic score: 526
+#RubyWarrior - beginner - Level 09 - generic player
+#epic score: 526
 class Player
   
   def initialize
     @max_health = 20
     @min_health = 5
     @health = @max_health
-    @direction = :forward
   end
   
   def play_turn(warrior)
@@ -66,15 +65,15 @@ class Player
   end
   
   def between_enemies?
-    enemy_ahead? && enemy_ahead?(:backward)
+    enemy_ahead?(:forward) && enemy_ahead?(:backward)
   end
   
   def incoming_enemy?
-    enemy_ahead? && !enemy_ahead?(:backward)
+    enemy_ahead?(:forward) && !enemy_ahead?(:backward)
   end
   
   def path_is_clear?
-    !enemy_ahead? && !enemy_ahead?(:backward)
+    !enemy_ahead?(:forward) && !enemy_ahead?(:backward)
   end
   
   def choose_player(warrior)
