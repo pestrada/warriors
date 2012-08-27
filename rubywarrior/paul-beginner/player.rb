@@ -10,19 +10,19 @@ class Player
   end
   
   def play_turn(warrior)
-    @warrior = warrior
+    choose_player(warrior)
     
-    if @warrior.feel.empty? then
+    if nothing_in_front? then
       if injured? then decide_next_move!
-      else @warrior.walk!
+      else walk!
       end
     else
-      if @warrior.feel.enemy? then @warrior.attack!
-      elsif @warrior.feel.captive? then @warrior.rescue!
-      elsif @warrior.feel.wall? then @warrior.pivot!
+      if enemy_in_front? then attack!
+      elsif captive_in_front? then rescue!
+      elsif wall_in_front? then turn_around!
       end
     end
-    @health = warrior.health
+    update_health!
   end
   
   def under_attack?
@@ -57,12 +57,12 @@ class Player
   end
   
   def decide_next_move!
-    if between_enemies? then @warrior.walk!
-    elsif incoming_enemy? then @warrior.shoot!
-    elsif path_is_clear? then @warrior.rest!
-    elsif @warrior.feel.wall? then @warrior.pivot!
+    if between_enemies? then walk!
+    elsif incoming_enemy? then shoot!
+    elsif path_is_clear? then rest!
+    elsif wall_in_front? then turn_around!
     elsif low_health? then run_away!
-    else @warrior.walk! end
+    else walk! end
   end
   
   def between_enemies?
@@ -77,4 +77,51 @@ class Player
     !enemy_ahead?(@direction) && !enemy_ahead?(:backward)
   end
   
+  def choose_player(warrior)
+    @warrior = warrior
+  end
+  
+  def walk!
+    @warrior.walk!
+  end
+  
+  def nothing_in_front?
+    @warrior.feel.empty?
+  end
+  
+  def enemy_in_front?
+    @warrior.feel.enemy?
+  end
+  
+  def attack!
+    @warrior.attack!
+  end
+  
+  def captive_in_front?
+    @warrior.feel.captive?
+  end
+  
+  def rescue!
+    @warrior.rescue!
+  end
+  
+  def wall_in_front?
+    @warrior.feel.wall?
+  end
+  
+  def turn_around!
+    @warrior.pivot!
+  end
+  
+  def shoot!
+    @warrior.shoot!
+  end
+  
+  def update_health!
+    @health = @warrior.health
+  end
+  
+  def rest!
+    @warrior.rest!
+  end
 end
