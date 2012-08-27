@@ -66,15 +66,15 @@ class Player
   end
   
   def between_enemies?
-    enemy_ahead?(@direction) && enemy_ahead?(:backward)
+    enemy_ahead? && enemy_ahead?(:backward)
   end
   
   def incoming_enemy?
-    enemy_ahead?(@direction) && !enemy_ahead?(:backward)
+    enemy_ahead? && !enemy_ahead?(:backward)
   end
   
   def path_is_clear?
-    !enemy_ahead?(@direction) && !enemy_ahead?(:backward)
+    !enemy_ahead? && !enemy_ahead?(:backward)
   end
   
   def choose_player(warrior)
