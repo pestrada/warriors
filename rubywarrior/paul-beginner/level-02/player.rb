@@ -1,4 +1,4 @@
-#RubyWarrior Level 02
+#RubyWarrior - beginner -Level 02
 class Player
   def play_turn(warrior)
     if warrior.feel.empty? then

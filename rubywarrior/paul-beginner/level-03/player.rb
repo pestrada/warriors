@@ -1,4 +1,4 @@
-#RubyWarrior Level 03
+#RubyWarrior - beginner - Level 03
 class Player
   def initialize()
     @min_hp = 13

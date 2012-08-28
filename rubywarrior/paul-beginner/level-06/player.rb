@@ -1,4 +1,4 @@
-#RubyWarrior Level 06
+#RubyWarrior - beginner - Level 06
 class Player
   
   def initialize
